@@ -3,11 +3,15 @@ import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "blackstar_admin_secret";
 
-export interface AdminRequest extends Request {
+export interface AdminRequest {
   admin?: { email: string };
+  headers: Request["headers"];
+  params: Request["params"];
+  body: Request["body"];
+  query: Request["query"];
 }
 
-export function adminAuth(req: AdminRequest, res: Response, next: NextFunction) {
+export function adminAuth(req: any, res: Response, next: NextFunction) {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) {
     res.status(401).json({ error: "No token provided" });
