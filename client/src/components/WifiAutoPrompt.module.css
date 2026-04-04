@@ -1,0 +1,62 @@
+.wrap {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 900;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.wrap.show {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.bubble {
+  background: var(--black3);
+  border: 1px solid rgba(201, 168, 76, 0.25);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.25rem;
+  max-width: 260px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.bubble:hover {
+  border-color: var(--gold);
+  background: var(--black2);
+}
+
+.title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--white);
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sub {
+  font-size: 0.72rem;
+  color: rgba(245, 242, 236, 0.4);
+  line-height: 1.4;
+}
+
+.pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: blink 1.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.2; }
+}

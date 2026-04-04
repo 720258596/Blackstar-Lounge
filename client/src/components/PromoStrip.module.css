@@ -1,0 +1,45 @@
+.strip {
+  background: var(--black3);
+  border-top: 1px solid rgba(201, 168, 76, 0.12);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.12);
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  gap: 0;
+  animation: slide 22s linear infinite;
+  white-space: nowrap;
+  width: max-content;
+}
+
+@keyframes slide {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.item {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2.5rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(245, 242, 236, 0.6);
+  border-right: 1px solid rgba(201, 168, 76, 0.1);
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+.highlight {
+  color: var(--gold);
+}

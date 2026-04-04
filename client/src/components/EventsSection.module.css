@@ -1,0 +1,207 @@
+.section {
+  padding: 3.5rem 1.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.label {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 2rem;
+  line-height: 1.1;
+}
+
+/* ─── GRID ─────────────────────────────────────────────────────────────────
+   Mobile first: single full-width column, no gap artifacts
+   ─────────────────────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;          /* single column on mobile */
+  gap: 1px;
+  background: rgba(201, 168, 76, 0.1);
+  border: 1px solid rgba(201, 168, 76, 0.1);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  width: 100%;
+}
+
+/* ─── CARD ──────────────────────────────────────────────────────────────────
+   Mobile: horizontal layout — poster left, content right
+   ─────────────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--black2);
+  display: flex;
+  flex-direction: row;               /* horizontal on mobile */
+  align-items: stretch;
+  transition: var(--transition);
+  cursor: pointer;
+  overflow: hidden;
+  min-height: 140px;
+}
+
+.card:hover {
+  background: var(--black3);
+}
+
+/* ─── POSTER ────────────────────────────────────────────────────────────────
+   Mobile: fixed-width strip on the left, landscape-friendly ratio
+   ─────────────────────────────────────────────────────────────────────── */
+.posterContainer {
+  flex: 0 0 120px;                   /* fixed width strip */
+  width: 120px;
+  min-height: 140px;
+  overflow: hidden;
+  background: rgba(201, 168, 76, 0.08);
+}
+
+.poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;       /* favour face/top of poster */
+  transition: transform 0.3s ease;
+  display: block;
+}
+
+.card:hover .poster {
+  transform: scale(1.05);
+}
+
+/* ─── CONTENT ───────────────────────────────────────────────────────────── */
+.content {
+  padding: 1rem 1.1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;                      /* prevent text overflow breaking layout */
+}
+
+.date {
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.35rem;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--white);
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.desc {
+  font-size: 0.75rem;
+  color: rgba(245, 242, 236, 0.45);
+  line-height: 1.4;
+  flex: 1;
+  margin-bottom: 0.75rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;             /* cap at 2 lines on mobile */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.reserveBtn {
+  padding: 0.6rem 0.9rem;
+  background: linear-gradient(135deg, var(--gold), #c9a84c);
+  border: none;
+  border-radius: 0.4rem;
+  color: var(--black);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  align-self: flex-start;            /* don't stretch full width on mobile */
+  white-space: nowrap;
+  min-height: 36px;                  /* comfortable tap target */
+}
+
+.reserveBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(201, 168, 76, 0.25);
+}
+
+/* ─── TABLET: 2-column vertical cards ──────────────────────────────────── */
+@media (min-width: 560px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card {
+    flex-direction: column;          /* back to vertical */
+    min-height: unset;
+  }
+
+  .posterContainer {
+    flex: none;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    min-height: unset;
+  }
+
+  .content {
+    padding: 1.4rem;
+  }
+
+  .name {
+    font-size: 1.2rem;
+    white-space: normal;
+  }
+
+  .desc {
+    -webkit-line-clamp: 3;
+  }
+
+  .reserveBtn {
+    padding: 0.7rem 1rem;
+    font-size: 0.8rem;
+    align-self: stretch;
+    text-align: center;
+  }
+}
+
+/* ─── DESKTOP: 3-column vertical cards ─────────────────────────────────── */
+@media (min-width: 860px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    max-width: 900px;
+  }
+
+  .content {
+    padding: 1.75rem;
+  }
+
+  .name {
+    font-size: 1.4rem;
+  }
+
+  .desc {
+    font-size: 0.8rem;
+    -webkit-line-clamp: unset;       /* show full description on desktop */
+  }
+
+  .reserveBtn {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+  }
+}

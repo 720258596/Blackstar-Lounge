@@ -1,0 +1,140 @@
+.page {
+  max-width: 800px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.section {
+  background: var(--black3);
+  border: 1px solid rgba(201,168,76,0.1);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+}
+
+.section h2 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--white);
+  margin-bottom: 1.5rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.field label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--white);
+}
+
+.field input {
+  padding: 0.65rem 0.9rem;
+  background: var(--black4);
+  border: 1px solid rgba(201,168,76,0.15);
+  color: var(--white);
+  border-radius: var(--radius);
+  outline: none;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.field input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.08);
+}
+
+.genBtn {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 100%);
+  color: var(--black);
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.genBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(201,168,76,0.2);
+}
+
+.genBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--black4);
+  border-radius: var(--radius);
+  border: 1px solid rgba(201,168,76,0.1);
+}
+
+.preview img {
+  max-width: 100%;
+  height: auto;
+}
+
+.downBtn {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  background: rgba(76,175,125,0.1);
+  border: 1px solid rgba(76,175,125,0.2);
+  border-radius: var(--radius);
+  color: var(--green);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.downBtn:hover {
+  background: rgba(76,175,125,0.15);
+}
+
+.presets {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.presetBtn {
+  padding: 1rem;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: var(--radius);
+  color: var(--gold);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.presetBtn:hover {
+  background: rgba(201,168,76,0.15);
+  border-color: var(--gold);
+}
+
+@media (max-width: 600px) {
+  .presets {
+    grid-template-columns: 1fr;
+  }
+}

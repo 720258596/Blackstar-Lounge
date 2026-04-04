@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  // url is configured in prisma.config.ts — Prisma 7 style
+}
+
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  name      String?
+  picture   String?
+  createdAt DateTime  @default(now())
+  sessions  Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model MenuItem {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  price       String
+  category    String
+  imageUrl    String?
+  isFeatured  Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model Event {
+  id            String        @id @default(cuid())
+  title         String
+  description   String?
+  date          DateTime?
+  posterUrl     String?
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  reservations  Reservation[]
+}
+
+model Promotion {
+  id       String  @id @default(cuid())
+  title    String
+  detail   String
+  isActive Boolean @default(true)
+}
+
+model Reservation {
+  id           String   @id @default(cuid())
+  eventId      String
+  guestName    String
+  guestEmail   String
+  guestPhone   String
+  partySize    Int
+  tableNumber  String?
+  reservedAt   DateTime @default(now())
+  event        Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+}
