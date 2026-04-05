@@ -5,7 +5,10 @@ export default defineConfig({
   migrations: {
     path: "prisma/migrations",
   },
-  datasource: {
-    url: process.env.DATABASE_URL!,
+  datasources: {
+    db: {
+      adapter: "postgresql",       // specify the adapter
+      url: process.env.DATABASE_URL!, // pass your Render database URL here
+    },
   },
 });
