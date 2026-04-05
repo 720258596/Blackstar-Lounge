@@ -22,35 +22,29 @@ import adminReservationsRoutes from "./routes/admin/adminReservationsRoutes";
 
 const app = express();
 
-/**
- * ✅ Allowed Origins (FIXED)
- * - MUST be HTTPS for Vercel
- * - MUST match EXACT domain
- */
 const ALLOWED_ORIGINS = [
-  "http://localhost:5173",
-  "http://localhost:5174",
+  "http://localhost:5173", // client local
+  "http://localhost:5174", // admin local
+  "https://blackstar-lounge.vercel.app", // client production
+  "https://blackstar-lounge-admin.vercel.app", // admin production
+].filter(Boolean);
 
-  // ✅ Your Vercel frontend (FIXED spelling + HTTPS)
-  "https://blackstar-lounge.vercel.app",
-  "https://blackstar-lounge-admin.vercel.app",
-
-  // optional fallback from env
-  process.env.FRONTEND_URL,
-].filter(Boolean) as string[];
-
-/**
- * ✅ CORS CONFIG (PRODUCTION SAFE)
- */
+// ── CORS ───────────────────────────────────────────────
 app.use(
   cors({
     origin: (origin, callback) => {
       console.log("🌍 Incoming origin:", origin);
 
-      // allow requests without origin (Postman, mobile apps)
       if (!origin) return callback(null, true);
 
-      if (ALLOWED_ORIGINS.includes(origin)) {
+      // Allow static origins
+      if (ALLOWED_ORIGINS.includes(origin)) return callback(null, true);
+
+      // Allow Vercel previews for both client and admin
+      if (
+        origin.includes("blackstar-lounge") &&
+        origin.endsWith(".vercel.app")
+      ) {
         return callback(null, true);
       }
 
@@ -61,26 +55,20 @@ app.use(
   })
 );
 
-
-/**
- * ✅ Body parsers
- */
+// ── Body parsing ────────────────────────────────────────
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-/**
- * ✅ Session config
- */
+// ── Session ────────────────────────────────────────────
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "blackstar_secret",
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: true, // ✅ REQUIRED for HTTPS (Render/Vercel)
+      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      sameSite: "none", // ✅ REQUIRED for cross-origin cookies
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
     },
   })
 );
@@ -88,23 +76,17 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-/**
- * ✅ Static files
- */
+// ── Static files ───────────────────────────────────────
 app.use("/uploads", express.static(path.join(process.cwd(), "public", "uploads")));
 
-/**
- * ✅ Public API routes
- */
+// ── Public API routes ──────────────────────────────────
 app.use("/api/auth", authRoutes);
 app.use("/api/menu", menuRoutes);
 app.use("/api/events", eventsRoutes);
 app.use("/api/promotions", promotionsRoutes);
 app.use("/api/reservations", reservationsRoutes);
 
-/**
- * ✅ Admin API routes
- */
+// ── Admin API routes ───────────────────────────────────
 app.use("/api/admin/auth", adminAuthRoutes);
 app.use("/api/admin/menu", adminMenuRoutes);
 app.use("/api/admin/events", adminEventsRoutes);
@@ -112,17 +94,14 @@ app.use("/api/admin/promotions", adminPromotionsRoutes);
 app.use("/api/admin/customers", adminCustomersRoutes);
 app.use("/api/admin/reservations", adminReservationsRoutes);
 
-/**
- * ✅ Health check
- */
+// ── Health check ──────────────────────────────────────
 app.get("/", (_req, res) => {
   res.json({ status: "ok", message: "Black Star API Running" });
 });
 
-/**
- * ✅ Start server
- */
+// ── Start server ──────────────────────────────────────
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log("==> Available at your primary URL", process.env.RENDER_EXTERNAL_URL || "http://localhost:" + PORT);
 });
