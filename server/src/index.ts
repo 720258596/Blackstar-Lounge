@@ -25,8 +25,11 @@ const app = express();
 const ALLOWED_ORIGINS = [
   "http://localhost:5173", // client
   "http://localhost:5174", // admin
-  "http://localhost:4173",
-];
+  "http://blackstar-lounge.varcel.app", // client
+  "http://blackstar-lounge-admin.varcel.app", // admin
+
+  process.env.FRONTEND_URL,
+].filter(Boolean) as string[];
 
 app.use(
   cors({
