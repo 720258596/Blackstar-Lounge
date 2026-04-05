@@ -22,7 +22,16 @@ export default function MenuPage() {
   const [loading, setLoading] = useState(true)
   const [isModal, setIsModal] = useState(false)
   const [editing, setEditing] = useState<MenuItem | null>(null)
-  const [form, setForm] = useState({ name: '', category: '', price: '', description: '', imageUrl: '', isFeatured: false, isActive: true })
+
+  const [form, setForm] = useState({
+    name: '',
+    category: '',
+    price: '',
+    description: '',
+    imageUrl: '',
+    isFeatured: false,
+    isActive: true,
+  })
 
   useEffect(() => {
     loadMenu()
@@ -33,8 +42,8 @@ export default function MenuPage() {
     try {
       const items = await getMenuItems(admin.token)
       setMenuItems(items)
-    } catch (err) {
-      showToast('Failed to load menu', 'error')
+    } catch {
+      showToast('Failed to load menu') // ✅ FIXED
     } finally {
       setLoading(false)
     }
@@ -42,34 +51,53 @@ export default function MenuPage() {
 
   function openNew() {
     setEditing(null)
-    setForm({ name: '', category: '', price: '', description: '', imageUrl: '', isFeatured: false, isActive: true })
+    setForm({
+      name: '',
+      category: '',
+      price: '',
+      description: '',
+      imageUrl: '',
+      isFeatured: false,
+      isActive: true,
+    })
     setIsModal(true)
   }
 
   function openEdit(item: MenuItem) {
     setEditing(item)
-    setForm(item)
+
+    // ✅ FIXED (normalize optional fields)
+    setForm({
+      name: item.name,
+      category: item.category,
+      price: item.price,
+      description: item.description || "",
+      imageUrl: item.imageUrl || "",
+      isFeatured: item.isFeatured ?? false,
+      isActive: item.isActive ?? true,
+    })
+
     setIsModal(true)
   }
 
   async function handleSubmit() {
     if (!admin || !form.name || !form.category || !form.price) {
-      showToast('Fill all required fields', 'error')
+      showToast('Fill all required fields') // ✅ FIXED
       return
     }
 
     try {
       if (editing) {
         await updateMenuItem(admin.token, editing.id, form)
-        showToast('Item updated', 'success')
+        showToast('Item updated') // ✅ FIXED
       } else {
         await createMenuItem(admin.token, form)
-        showToast('Item created', 'success')
+        showToast('Item created') // ✅ FIXED
       }
       setIsModal(false)
       await loadMenu()
-    } catch (err) {
-      showToast('Operation failed', 'error')
+    } catch {
+      showToast('Operation failed') // ✅ FIXED
     }
   }
 
@@ -77,10 +105,10 @@ export default function MenuPage() {
     if (!admin || !window.confirm('Delete this item?')) return
     try {
       await deleteMenuItem(admin.token, id)
-      showToast('Item deleted', 'success')
+      showToast('Item deleted') // ✅ FIXED
       await loadMenu()
-    } catch (err) {
-      showToast('Failed to delete', 'error')
+    } catch {
+      showToast('Failed to delete') // ✅ FIXED
     }
   }
 
@@ -113,19 +141,24 @@ export default function MenuPage() {
         actions={(row) => (
           <>
             <button className={styles.actionBtn} onClick={() => openEdit(row)}>Edit</button>
-            <button className={styles.actionBtn + ' ' + styles.danger} onClick={() => handleDelete(row.id)}>
+            <button className={`${styles.actionBtn} ${styles.danger}`} onClick={() => handleDelete(row.id)}>
               Delete
             </button>
           </>
         )}
       />
 
-      <Modal isOpen={isModal} title={editing ? 'Edit Item' : 'New Item'} onClose={() => setIsModal(false)} actions={
-        <>
-          <button className={styles.btnCancel} onClick={() => setIsModal(false)}>Cancel</button>
-          <button className={styles.btnSubmit} onClick={handleSubmit}>Save</button>
-        </>
-      }>
+      <Modal
+        isOpen={isModal}
+        title={editing ? 'Edit Item' : 'New Item'}
+        onClose={() => setIsModal(false)}
+        actions={
+          <>
+            <button className={styles.btnCancel} onClick={() => setIsModal(false)}>Cancel</button>
+            <button className={styles.btnSubmit} onClick={handleSubmit}>Save</button>
+          </>
+        }
+      >
         <div className={styles.form}>
           <div className={styles.field}>
             <label>Name *</label>
@@ -145,7 +178,7 @@ export default function MenuPage() {
           <div className={styles.field}>
             <label>Description</label>
             <textarea
-              value={form.description || ''}
+              value={form.description}
               onChange={(e) => setForm({ ...form, description: e.target.value })}
               rows={3}
             />
@@ -153,14 +186,17 @@ export default function MenuPage() {
 
           <div className={styles.field}>
             <label>Image</label>
-            <ImageUpload currentUrl={form.imageUrl} onUploaded={(url) => setForm({ ...form, imageUrl: url })} />
+            <ImageUpload
+              currentUrl={form.imageUrl}
+              onUploaded={(url) => setForm({ ...form, imageUrl: url })}
+            />
           </div>
 
           <div className={styles.field}>
             <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <input
                 type="checkbox"
-                checked={form.isFeatured || false}
+                checked={form.isFeatured}
                 onChange={(e) => setForm({ ...form, isFeatured: e.target.checked })}
               />
               Mark as Tonight's Special (Featured)
@@ -171,7 +207,7 @@ export default function MenuPage() {
             <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <input
                 type="checkbox"
-                checked={form.isActive || true}
+                checked={form.isActive}
                 onChange={(e) => setForm({ ...form, isActive: e.target.checked })}
               />
               Active

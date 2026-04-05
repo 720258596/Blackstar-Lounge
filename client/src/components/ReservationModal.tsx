@@ -34,11 +34,14 @@ export default function ReservationModal({ isOpen, eventId, eventTitle, onClose 
         partySize: parseInt(form.partySize),
       })
       
-      showToast('Reservation submitted! We\'ll confirm shortly.', 'success')
+      // ✅ FIXED (single argument)
+      showToast('Reservation submitted! We will confirm shortly.')
+      
       setForm({ guestName: '', guestEmail: '', guestPhone: '', partySize: '1' })
       onClose()
     } catch (err) {
-      showToast('Failed to submit reservation', 'error')
+      // ✅ FIXED (single argument)
+      showToast('Failed to submit reservation')
     } finally {
       setLoading(false)
     }

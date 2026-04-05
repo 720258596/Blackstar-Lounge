@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useAdminStore } from '../store/adminStore'
-import { getEvents, createEvent, updateEvent, deleteEvent, uploadEventPoster } from '../services/api'
+import { getEvents, createEvent, updateEvent, deleteEvent } from '../services/api'
 import ImageUpload from '../components/ImageUpload'
 import DataTable, { Column } from '../components/DataTable'
 import Modal from '../components/Modal'
@@ -46,7 +46,12 @@ export default function EventsPage() {
 
   function openEdit(item: Event) {
     setEditing(item)
-    setForm(item)
+    setForm({
+      title: item.title,
+      description: item.description || '',
+      date: item.date || '',
+      posterUrl: item.posterUrl || '',
+    })
     setIsModal(true)
   }
 
@@ -132,7 +137,7 @@ export default function EventsPage() {
           <div className={styles.field}>
             <label>Description</label>
             <textarea
-              value={form.description || ''}
+              value={form.description}
               onChange={(e) => setForm({ ...form, description: e.target.value })}
               rows={3}
             />

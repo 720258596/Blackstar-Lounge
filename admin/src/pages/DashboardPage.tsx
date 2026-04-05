@@ -22,11 +22,14 @@ export default function DashboardPage() {
     if (!admin) return
     try {
       const res = await getCustomers(admin.token)
+
+      // ✅ FIXED (res is array)
       setStats({
-        totalCustomers: res.total || 0,
-        todayCustomers: res.today || 0,
-        thisWeekCustomers: res.thisWeek || 0,
+        totalCustomers: res.length || 0,
+        todayCustomers: 0,     // backend not providing yet
+        thisWeekCustomers: 0,  // backend not providing yet
       })
+
     } catch (err) {
       console.error('Failed to load stats:', err)
     } finally {

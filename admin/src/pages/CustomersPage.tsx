@@ -26,10 +26,13 @@ export default function CustomersPage() {
     if (!admin) return
     try {
       const res = await getCustomers(admin.token)
-      setCustomers(res.customers || [])
-      setTotal(res.total || 0)
-    } catch (err) {
-      showToast('Failed to load customers', 'error')
+
+      // ✅ FIXED
+      setCustomers(res || [])
+      setTotal(res.length || 0)
+
+    } catch {
+      showToast('Failed to load customers') // ✅ FIXED
     } finally {
       setLoading(false)
     }

@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useAdminStore } from './store/adminStore'
 import Sidebar from './components/Sidebar'
