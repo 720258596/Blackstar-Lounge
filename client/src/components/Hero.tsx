@@ -12,7 +12,7 @@ export default function Hero() {
       <div className={styles.bgGrid} />
 
       <div className={styles.content}>
-        {/* Logo Mark */}
+        {/* Logo Mark — bigger star, dual ring */}
         <div className={styles.logoMark}>
           <div className={styles.logoPulse} />
           <span className={styles.logoStar}>★</span>
@@ -46,6 +46,12 @@ export default function Hero() {
             Connect to Free WiFi
           </button>
         </div>
+      </div>
+
+      {/* Scroll hint — nudges user to scroll down to events */}
+      <div className={styles.scrollHint}>
+        <div className={styles.scrollLine} />
+        <div className={styles.scrollDot} />
       </div>
     </section>
   )

@@ -6,24 +6,17 @@ import styles from './EventsSection.module.css'
 
 export default function EventsSection() {
   const { events, setEvents } = useUIStore()
-  const [fetchFailed, setFetchFailed] = useState(false)
+  const [fetchFailed, setFetchFailed]         = useState(false)
   const [selectedEventId, setSelectedEventId] = useState<string | undefined>()
   const [selectedEventTitle, setSelectedEventTitle] = useState<string | undefined>()
   const [showReservation, setShowReservation] = useState(false)
 
   useEffect(() => {
     fetchActiveEvents()
-      .then((data) => {
-        setEvents(data)
-        setFetchFailed(false)
-      })
-      .catch(() => {
-        setFetchFailed(true)
-        setEvents(FALLBACK_EVENTS)
-      })
+      .then((data) => { setEvents(data); setFetchFailed(false) })
+      .catch(() => { setFetchFailed(true); setEvents(FALLBACK_EVENTS) })
   }, [setEvents])
 
-  // Only show fallback if the network request actually failed
   const items = fetchFailed ? FALLBACK_EVENTS : events
 
   function openReservation(eventId: string, eventTitle: string) {
@@ -49,23 +42,63 @@ export default function EventsSection() {
       <section className={styles.section}>
         <p className={styles.label}>What's on</p>
         <h2 className={styles.title}>Upcoming Events</h2>
+
         <div className={styles.grid}>
           {items.map((event, i) => (
-            <div className={styles.card} key={event.id ?? i}>
-              {event.posterUrl && (
+            <div
+              className={styles.card}
+              key={event.id ?? i}
+              onClick={() => openReservation(event.id || '', event.title)}
+            >
+              {/* ── POSTER — dominant visual ── */}
+              {event.posterUrl ? (
                 <div className={styles.posterContainer}>
-                  <img src={event.posterUrl} alt={event.title} className={styles.poster} />
+                  <img
+                    src={event.posterUrl}
+                    alt={event.title}
+                    className={styles.poster}
+                    loading="lazy"
+                  />
+                  {/* Date badge overlaid on poster */}
+                  {event.date && (
+                    <div className={styles.dateBadge}>{event.date}</div>
+                  )}
+                </div>
+              ) : (
+                <div className={styles.noPoster}>
+                  <div className={styles.noPosterStar}>★</div>
+                  <div className={styles.noPosterLabel}>Event</div>
+                  {event.date && (
+                    <div className={styles.dateBadge}
+                      style={{ position: 'relative', top: 'unset', left: 'unset' }}
+                    >
+                      {event.date}
+                    </div>
+                  )}
                 </div>
               )}
+
+              {/* ── CONTENT below poster ── */}
               <div className={styles.content}>
-                <div className={styles.date}>{event.date ?? 'Upcoming'}</div>
+                {/* Only show date here if no poster (poster has badge) */}
+                {!event.posterUrl && event.date && (
+                  <div className={styles.date}>{event.date}</div>
+                )}
+                {event.posterUrl && event.date && (
+                  <div className={styles.date}>{event.date}</div>
+                )}
                 <div className={styles.name}>{event.title}</div>
-                <div className={styles.desc}>{event.description ?? ''}</div>
+                {event.description && (
+                  <div className={styles.desc}>{event.description}</div>
+                )}
                 <button
                   className={styles.reserveBtn}
-                  onClick={() => openReservation(event.id || '', event.title)}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    openReservation(event.id || '', event.title)
+                  }}
                 >
-                  Reserve Spot
+                  Reserve a Spot
                 </button>
               </div>
             </div>
