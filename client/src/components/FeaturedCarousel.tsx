@@ -6,9 +6,14 @@ const EMOJI: Record<string, string> = { drinks: '🥃', cocktails: '🍹', food:
 export default function FeaturedCarousel() {
   const { menuItems } = useUIStore()
   const source = menuItems.length ? menuItems : FALLBACK_MENU
-  const featured = source
-    .filter((item, i) => item.featured || i % 3 === 0)
-    .slice(0, 6)
+
+  // FIX 1: Only show items explicitly marked as featured
+  const featured = source.filter(item => item.featured === true)
+
+  // If admin has not marked anything featured yet, hide section entirely
+  if (!featured.length) return null
+
+  // Duplicate for seamless infinite carousel loop
   const doubled = [...featured, ...featured]
 
   return (
@@ -26,6 +31,13 @@ export default function FeaturedCarousel() {
                     {EMOJI[item.category] ?? '★'}
                   </div>
                 )}
+                {/* FIX 3: Hover overlay showing price + description */}
+                <div className={styles.overlay}>
+                  <div className={styles.overlayPrice}>{item.price}</div>
+                  {item.description && (
+                    <div className={styles.overlayDesc}>{item.description}</div>
+                  )}
+                </div>
               </div>
               <div className={styles.info}>
                 <div className={styles.name}>{item.name}</div>
