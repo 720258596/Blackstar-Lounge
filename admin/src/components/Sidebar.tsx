@@ -3,13 +3,12 @@ import { useAdminStore } from '../store/adminStore'
 import styles from './Sidebar.module.css'
 
 const NAV = [
-  { to: '/dashboard',   label: 'Dashboard',   icon: '◈' },
-  { to: '/menu',        label: 'Menu',         icon: '🍽' },
-  { to: '/events',      label: 'Events',       icon: '★' },
-  { to: '/reservations', label: 'Reservations', icon: '🪑' },
-  { to: '/promotions',  label: 'Promotions',   icon: '◆' },
-  { to: '/customers',   label: 'Customers',    icon: '◉' },
-  { to: '/qr',          label: 'QR Code',      icon: '▦' },
+  { to: '/dashboard',  label: 'Dashboard',  icon: '◈' },
+  { to: '/menu',       label: 'Menu',        icon: '🍽' },
+  { to: '/events',     label: 'Events',      icon: '★' },
+  { to: '/promotions', label: 'Promotions',  icon: '◆' },
+  { to: '/customers',  label: 'Customers',   icon: '◉' },
+  { to: '/qr',         label: 'QR Code',     icon: '▦' },
 ]
 
 export default function Sidebar() {
@@ -24,12 +23,13 @@ export default function Sidebar() {
   return (
     <aside className={styles.sidebar}>
       {/* Logo */}
-      <div className={styles.logo}>
-        <div className={styles.logoMark}>★</div>
-        <div>
-          <div className={styles.logoName}>Black Star</div>
-          <div className={styles.logoSub}>Admin Panel</div>
-        </div>
+      <div className={styles.logoWrap}>
+        <img
+          src="/logo-compact.svg"
+          alt="Black Stars Lounge & Club"
+          className={styles.logo}
+        />
+        <div className={styles.adminBadge}>Admin Panel</div>
       </div>
 
       {/* Nav */}

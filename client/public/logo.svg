@@ -1,0 +1,39 @@
+<svg width="100%" viewBox="0 0 800 340" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Black Stars Lounge &amp; Club</title>
+  <desc>Black Stars Lounge and Club gold gradient logo</desc>
+  <defs>
+    <linearGradient id="gText" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#f5e070"/>
+      <stop offset="45%"  stop-color="#c9a84c"/>
+      <stop offset="100%" stop-color="#7a5510"/>
+    </linearGradient>
+    <linearGradient id="gStar" x1="15%" y1="0%" x2="85%" y2="100%">
+      <stop offset="0%"   stop-color="#b8860b"/>
+      <stop offset="35%"  stop-color="#daa520"/>
+      <stop offset="65%"  stop-color="#f5e888"/>
+      <stop offset="100%" stop-color="#b07820"/>
+    </linearGradient>
+    <linearGradient id="gSub" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#e8c85a"/>
+      <stop offset="100%" stop-color="#9a7030"/>
+    </linearGradient>
+  </defs>
+  <style>
+    .wm  { font-family: "Arial Black", "Impact", sans-serif; font-weight: 900; font-size: 112px; fill: url(#gText); }
+    .sub { font-family: "Arial", sans-serif; font-weight: 400; font-size: 21px; fill: url(#gSub); letter-spacing: 16px; }
+  </style>
+  <!-- Star -->
+  <g transform="translate(400,116) rotate(-14)">
+    <polygon points="0,-150 35,-54 142,-47 58,18 88,124 0,64 -88,124 -58,18 -142,-47 -35,-54" fill="url(#gStar)"/>
+    <polygon points="10,-150 62,-32 142,-47 42,12 88,124 0,58" fill="#fff8c0" opacity="0.18"/>
+  </g>
+  <!-- Wordmark -->
+  <text class="wm" x="48"  y="240" text-anchor="start">BLACK</text>
+  <text class="wm" x="752" y="240" text-anchor="end">STARS</text>
+  <!-- Diamond separator -->
+  <polygon points="400,196 413,213 400,230 387,213" fill="url(#gStar)"/>
+  <!-- Subtitle -->
+  <text class="sub" x="400" y="296" text-anchor="middle">LOUNGE &amp; CLUB</text>
+  <!-- Rule -->
+  <line x1="220" y1="309" x2="580" y2="309" stroke="url(#gSub)" stroke-width="0.8" opacity="0.45"/>
+</svg>

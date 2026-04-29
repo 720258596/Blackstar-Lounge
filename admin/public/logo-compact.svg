@@ -1,0 +1,36 @@
+<svg width="100%" viewBox="0 0 480 120" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Black Stars Lounge &amp; Club</title>
+  <defs>
+    <linearGradient id="cgText" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#f5e070"/>
+      <stop offset="45%"  stop-color="#c9a84c"/>
+      <stop offset="100%" stop-color="#7a5510"/>
+    </linearGradient>
+    <linearGradient id="cgStar" x1="15%" y1="0%" x2="85%" y2="100%">
+      <stop offset="0%"   stop-color="#b8860b"/>
+      <stop offset="35%"  stop-color="#daa520"/>
+      <stop offset="65%"  stop-color="#f5e888"/>
+      <stop offset="100%" stop-color="#b07820"/>
+    </linearGradient>
+    <linearGradient id="cgSub" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#e8c85a"/>
+      <stop offset="100%" stop-color="#9a7030"/>
+    </linearGradient>
+  </defs>
+  <style>
+    .cwm  { font-family: "Arial Black","Impact",sans-serif; font-weight:900; font-size:52px; fill:url(#cgText); }
+    .csub { font-family: "Arial",sans-serif; font-weight:400; font-size:10px; fill:url(#cgSub); letter-spacing:7px; }
+  </style>
+  <!-- compact star -->
+  <g transform="translate(240,46) rotate(-14)">
+    <polygon points="0,-52 12,-19 49,-16 20,6 30,43 0,22 -30,43 -20,6 -49,-16 -12,-19" fill="url(#cgStar)"/>
+    <polygon points="4,-52 22,-11 49,-16 14,4 30,43 0,20" fill="#fff8c0" opacity="0.18"/>
+  </g>
+  <!-- wordmark -->
+  <text class="cwm" x="28"  y="78" text-anchor="start">BLACK</text>
+  <text class="cwm" x="452" y="78" text-anchor="end">STARS</text>
+  <!-- diamond -->
+  <polygon points="240,62 247,72 240,82 233,72" fill="url(#cgStar)"/>
+  <!-- subtitle -->
+  <text class="csub" x="240" y="104" text-anchor="middle">LOUNGE &amp; CLUB</text>
+</svg>

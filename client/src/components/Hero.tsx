@@ -12,19 +12,17 @@ export default function Hero() {
       <div className={styles.bgGrid} />
 
       <div className={styles.content}>
-        {/* Logo Mark — bigger star, dual ring */}
-        <div className={styles.logoMark}>
-          <div className={styles.logoPulse} />
-          <span className={styles.logoStar}>★</span>
+
+        {/* ── LOGO ── */}
+        <div className={styles.logoWrap}>
+          <img
+            src="/logo.svg"
+            alt="Black Stars Lounge & Club"
+            className={styles.logo}
+          />
         </div>
 
         <p className={styles.eyebrow}>Nairobi's Premier Nightlife Destination</p>
-
-        <h1 className={styles.title}>
-          Black <em>Star</em>
-          <br />
-          Lounge
-        </h1>
 
         <p className={styles.sub}>Premium nightlife experience</p>
 
@@ -48,7 +46,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll hint — nudges user to scroll down to events */}
+      {/* Scroll hint */}
       <div className={styles.scrollHint}>
         <div className={styles.scrollLine} />
         <div className={styles.scrollDot} />

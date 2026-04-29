@@ -13,7 +13,6 @@ export default function MenuPage() {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
-    // Show WiFi bubble after 20 s if not already shown
     if (wifiPromptVisible) return
     timerRef.current = setTimeout(() => showWifiPrompt(), 20_000)
     return () => {
@@ -29,9 +28,12 @@ export default function MenuPage() {
           <span className={styles.backArrow}>←</span> Back
         </button>
 
-        <div className={styles.logo}>
-          Black <span>★</span> Star
-        </div>
+        {/* ── Logo ── */}
+        <img
+          src="/logo-compact.svg"
+          alt="Black Stars Lounge & Club"
+          className={styles.navLogo}
+        />
 
         <button className={styles.wifiBtn} onClick={openWifiModal}>
           <svg
@@ -62,7 +64,7 @@ export default function MenuPage() {
       <WifiAutoPrompt />
 
       <footer className="footer-strip">
-        Black Star Lounge · Premium Nightlife Experience
+        Black Stars Lounge & Club · Premium Nightlife Experience
       </footer>
     </div>
   )
