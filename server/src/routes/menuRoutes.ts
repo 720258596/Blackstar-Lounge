@@ -3,6 +3,14 @@ import { prisma } from "../lib/prismaClient";
 
 const router = Router();
 
+// Valid categories — frontend tabs must match exactly
+const VALID_CATEGORIES = [
+  'whiskey', 'gin', 'cognac', 'vodka', 'tequila',
+  'rum', 'champagne', 'cocktails', 'shooters', 'food',
+  // legacy support — old items saved as 'drinks' still show
+  'drinks',
+];
+
 // GET /api/menu — all active menu items
 router.get("/", async (_req: Request, res: Response) => {
   try {
@@ -11,13 +19,12 @@ router.get("/", async (_req: Request, res: Response) => {
       orderBy: { createdAt: "asc" },
     });
 
-    // Map DB field names → frontend field names
-    // FIX 2: toLowerCase() on category ensures "Drinks" / "DRINKS" all match
     const mapped = items.map((item) => ({
       id:          item.id,
       name:        item.name,
       description: item.description,
       price:       item.price,
+      // Normalise — lowercase + trim, ensures admin input is always clean
       category:    item.category.toLowerCase().trim(),
       image_url:   item.imageUrl,
       featured:    item.isFeatured,

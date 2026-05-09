@@ -3,7 +3,8 @@
 export interface MenuItem {
   id?: string
   name: string
-  category: "drinks" | "cocktails" | "food"
+  category: "whiskey" | "gin" | "cognac" | "vodka" | "tequila" | "rum" | "champagne" | "cocktails" | "shooters" | "food"
+
   price: string
   description?: string
   image_url?: string
