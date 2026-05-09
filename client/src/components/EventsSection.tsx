@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { useUIStore, FALLBACK_EVENTS } from '../store/uiStore'
+import { useUIStore } from '../store/uiStore'
+import type { Event } from '../services/api'
 import { fetchActiveEvents } from '../services/api'
 import ReservationModal from './ReservationModal'
 import styles from './EventsSection.module.css'
@@ -14,10 +15,10 @@ export default function EventsSection() {
   useEffect(() => {
     fetchActiveEvents()
       .then((data) => { setEvents(data); setFetchFailed(false) })
-      .catch(() => { setFetchFailed(true); setEvents(FALLBACK_EVENTS) })
+      .catch(() => { setFetchFailed(true) })
   }, [setEvents])
 
-  const items = fetchFailed ? FALLBACK_EVENTS : events
+  const items = events
 
   function openReservation(eventId: string, eventTitle: string) {
     setSelectedEventId(eventId)
@@ -44,7 +45,7 @@ export default function EventsSection() {
         <h2 className={styles.title}>Upcoming Events</h2>
 
         <div className={styles.grid}>
-          {items.map((event, i) => (
+          {items.map((event: Event, i: number) => (
             <div
               className={styles.card}
               key={event.id ?? i}

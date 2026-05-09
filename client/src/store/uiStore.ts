@@ -1,6 +1,46 @@
 import { create } from "zustand";
 import type { MenuItem, Event, Promotion, AuthUser } from "../services/api";
 
+// ─── FALLBACK DATA ───────────────────────────────────────────────────────────
+
+export const FALLBACK_MENU: MenuItem[] = [
+  {
+    name: "Whiskey",
+    category: "whiskey",
+    price: "$8 - $15",
+    description: "Premium whiskey selection",
+  },
+  {
+    name: "Cocktail Mix",
+    category: "cocktails",
+    price: "$12 - $18",
+    description: "Classic and contemporary cocktails",
+  },
+  {
+    name: "Appetizers",
+    category: "food",
+    price: "$5 - $12",
+    description: "Delicious food options",
+  },
+];
+
+export const FALLBACK_EVENTS: Event[] = [
+  {
+    id: "1",
+    title: "Live Music Night",
+    date: "Friday, 9:00 PM",
+    description: "Join us for an evening of live jazz",
+  },
+];
+
+export const FALLBACK_PROMOS: Promotion[] = [
+  {
+    id: "1",
+    title: "Happy Hour",
+    detail: "50% off drinks 5-7 PM daily",
+  },
+];
+
 // ─── STATE ─────────────────────────────────────────────────────────────────
 
 interface UIState {

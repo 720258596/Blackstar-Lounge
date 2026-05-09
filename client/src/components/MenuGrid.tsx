@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
-import { useUIStore, FALLBACK_MENU } from '../store/uiStore'
+import { useUIStore } from '../store/uiStore'
+import type { MenuItem } from '../services/api'
 import { fetchMenuItems } from '../services/api'
 import styles from './MenuGrid.module.css'
 import { CATEGORIES } from './CategoryTabs'
@@ -43,18 +44,17 @@ export default function MenuGrid() {
     if (menuItems.length) return
     fetchMenuItems()
       .then(setMenuItems)
-      .catch(() => setMenuItems(FALLBACK_MENU))
+      .catch(() => {})
   }, [menuItems.length, setMenuItems])
 
-  const source = menuItems.length ? menuItems : FALLBACK_MENU
   const cats = currentCategory === 'all'
     ? ALL_CATS
     : [currentCategory]
 
   return (
     <div className={styles.section}>
-      {cats.map((cat) => {
-        const items = source.filter(i => i.category === cat)
+      {cats.map((cat: string) => {
+        const items = menuItems.filter(i => i.category === cat)
         if (!items.length) return null
         return (
           <div key={cat} className={styles.categoryBlock}>
@@ -62,7 +62,7 @@ export default function MenuGrid() {
               {CAT_LABELS[cat] ?? cat}
             </h3>
             <div className={styles.grid}>
-              {items.map((item, idx) => (
+              {items.map((item: MenuItem, idx: number) => (
                 <div className={styles.card} key={item.id ?? idx}>
                   <div className={styles.cardImgWrap}>
                     {item.image_url ? (
