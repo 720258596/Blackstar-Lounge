@@ -54,7 +54,7 @@ export default function MenuGrid() {
   return (
     <div className={styles.section}>
       {cats.map((cat: string) => {
-        const items = menuItems.filter(i => i.category === cat)
+        const items = menuItems.filter((i: MenuItem) => i.category === cat)
         if (!items.length) return null
         return (
           <div key={cat} className={styles.categoryBlock}>

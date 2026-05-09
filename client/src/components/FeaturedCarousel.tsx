@@ -6,7 +6,7 @@ const EMOJI: Record<string, string> = { drinks: '🥃', cocktails: '🍹', food:
 
 export default function FeaturedCarousel() {
   const { menuItems } = useUIStore()
-  const featured = menuItems.filter(item => item.featured === true)
+  const featured = menuItems.filter((item: MenuItem) => item.featured === true)
 
   // If admin has not marked anything featured yet, hide section entirely
   if (!featured.length) return null
