@@ -19,6 +19,7 @@ async function req<T>(
     method,
     headers: token ? authHeaders(token) : { 'Content-Type': 'application/json' },
     body: body ? JSON.stringify(body) : undefined,
+    credentials: 'include',
   })
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: 'Request failed' }))

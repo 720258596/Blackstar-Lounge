@@ -23,6 +23,36 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } });
 
+// POST /api/admin/menu/upload-image — Local file upload
+router.post("/upload-image", adminAuth, upload.single("image"), async (req: Request, res: Response) => {
+  try {
+    if (!req.file) {
+      res.status(400).json({ error: "No file provided" });
+      return;
+    }
+    const protocol = req.protocol || 'http';
+    const host = req.get('host') || 'localhost:3000';
+    const fileUrl = `${protocol}://${host}/uploads/${req.file.filename}`;
+    res.json({ url: fileUrl, fileId: req.file.filename });
+  } catch (err) {
+    res.status(500).json({ error: "Image upload failed" });
+  }
+});
+
+// GET /api/admin/menu/imagekit-auth — Mock auth for client-side upload
+router.get("/imagekit-auth", adminAuth, (_req: Request, res: Response) => {
+  try {
+    // Return mock auth params - client will use local upload instead
+    res.json({
+      token: "mock_token",
+      expire: Math.floor(Date.now() / 1000) + 3600,
+      signature: "mock_signature",
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to get auth" });
+  }
+});
+
 // GET /api/admin/menu — all items (including inactive)
 router.get("/", adminAuth, async (_req: Request, res: Response) => {
   try {
@@ -67,36 +97,6 @@ router.delete("/:id", adminAuth, async (req: Request, res: Response) => {
     res.json({ success: true });
   } catch {
     res.status(500).json({ error: "Failed to delete menu item" });
-  }
-});
-
-// POST /api/admin/menu/upload-image — Local file upload
-router.post("/upload-image", adminAuth, upload.single("image"), async (req: Request, res: Response) => {
-  try {
-    if (!req.file) {
-      res.status(400).json({ error: "No file provided" });
-      return;
-    }
-    const protocol = req.protocol || 'http';
-    const host = req.get('host') || 'localhost:3000';
-    const fileUrl = `${protocol}://${host}/uploads/${req.file.filename}`;
-    res.json({ url: fileUrl, fileId: req.file.filename });
-  } catch (err) {
-    res.status(500).json({ error: "Image upload failed" });
-  }
-});
-
-// GET /api/admin/menu/imagekit-auth — Mock auth for client-side upload
-router.get("/imagekit-auth", adminAuth, (_req: Request, res: Response) => {
-  try {
-    // Return mock auth params - client will use local upload instead
-    res.json({
-      token: "mock_token",
-      expire: Math.floor(Date.now() / 1000) + 3600,
-      signature: "mock_signature",
-    });
-  } catch (err) {
-    res.status(500).json({ error: "Failed to get auth" });
   }
 });
 

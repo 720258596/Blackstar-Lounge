@@ -192,7 +192,15 @@ export default function MenuPage() {
 
           <div className={styles.field}>
             <label>Price *</label>
-            <input value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} />
+            <input 
+              value={form.price} 
+              onChange={(e) => setForm({ ...form, price: e.target.value })}
+              placeholder="e.g., $12 or $8 | $15"
+              title="Format: single price ($12) or range ($8 | $15)"
+            />
+            <small style={{ display: 'block', marginTop: '4px', opacity: 0.7, fontSize: '0.85em' }}>
+              Format: <code>$12</code> or range <code>$8 | $15</code>
+            </small>
           </div>
 
           <div className={styles.field}>
