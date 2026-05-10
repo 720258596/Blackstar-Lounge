@@ -58,7 +58,8 @@ router.get("/", adminAuth, async (_req: Request, res: Response) => {
   try {
     const items = await prisma.menuItem.findMany({ orderBy: { createdAt: "desc" } });
     res.json(items);
-  } catch {
+  } catch (err) {
+    console.error("GET /api/admin/menu error:", err);
     res.status(500).json({ error: "Failed to fetch menu items" });
   }
 });
@@ -71,7 +72,8 @@ router.post("/", adminAuth, async (req: Request, res: Response) => {
       data: { name, description, price, category, imageUrl, isFeatured: isFeatured ?? false, isActive: isActive ?? true },
     });
     res.status(201).json(item);
-  } catch {
+  } catch (err) {
+    console.error("POST /api/admin/menu error:", err);
     res.status(500).json({ error: "Failed to create menu item" });
   }
 });
@@ -85,7 +87,8 @@ router.put("/:id", adminAuth, async (req: Request, res: Response) => {
       data: { name, description, price, category, imageUrl, isFeatured, isActive },
     });
     res.json(item);
-  } catch {
+  } catch (err) {
+    console.error("PUT /api/admin/menu/:id error:", err);
     res.status(500).json({ error: "Failed to update menu item" });
   }
 });
@@ -95,7 +98,8 @@ router.delete("/:id", adminAuth, async (req: Request, res: Response) => {
   try {
     await prisma.menuItem.delete({ where: { id: req.params.id as string } });
     res.json({ success: true });
-  } catch {
+  } catch (err) {
+    console.error("DELETE /api/admin/menu/:id error:", err);
     res.status(500).json({ error: "Failed to delete menu item" });
   }
 });

@@ -4,6 +4,7 @@ import cors from "cors";
 import session from "express-session";
 import passport from "./config/passport";
 import path from "path";
+import { prisma } from "./lib/prismaClient";
 
 // Public routes
 import authRoutes from "./routes/auth.routes";
@@ -97,6 +98,17 @@ app.use("/api/admin/reservations", adminReservationsRoutes);
 // ── Health check ──────────────────────────────────────
 app.get("/", (_req, res) => {
   res.json({ status: "ok", message: "Black Star API Running" });
+});
+
+// ── Database test endpoint ─────────────────────────────
+app.get("/health/db", async (_req, res) => {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    res.json({ status: "ok", message: "Database connection healthy" });
+  } catch (err) {
+    console.error("Database health check failed:", err);
+    res.status(500).json({ status: "error", message: "Database connection failed" });
+  }
 });
 
 // ── Start server ──────────────────────────────────────
