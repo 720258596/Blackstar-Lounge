@@ -10,7 +10,19 @@ if (!connectionString) {
   throw new Error("DATABASE_URL is not set in environment");
 }
 
-const adapter = new PrismaPg({ connectionString });
+// Ensure an explicit SSL mode is present to avoid pg connection-string warnings
+// Prefer `verify-full` for the current behavior; admins can override via DATABASE_URL
+let secureConnectionString = connectionString;
+if (!/sslmode=/i.test(connectionString)) {
+  const sep = connectionString.includes("?") ? "&" : "?";
+  secureConnectionString = `${connectionString}${sep}sslmode=verify-full`;
+}
+
+// Log a masked connection string for debugging (do not expose credentials)
+const masked = secureConnectionString.replace(/(postgres(?:ql)?:\/\/)([^:@\/]+)(:[^@\/]+)?@/, "$1****:****@");
+console.log("Using DATABASE_URL:", masked);
+
+const adapter = new PrismaPg({ connectionString: secureConnectionString });
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
