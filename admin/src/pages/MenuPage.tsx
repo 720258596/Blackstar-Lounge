@@ -6,6 +6,19 @@ import DataTable, { Column } from '../components/DataTable'
 import Modal from '../components/Modal'
 import styles from './MenuPage.module.css'
 
+const CATEGORIES = [
+  'whiskey',
+  'gin',
+  'cognac',
+  'vodka',
+  'tequila',
+  'rum',
+  'champagne',
+  'cocktails',
+  'shooters',
+  'food',
+]
+
 interface MenuItem {
   id: string
   name: string
@@ -167,7 +180,14 @@ export default function MenuPage() {
 
           <div className={styles.field}>
             <label>Category *</label>
-            <input value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} />
+            <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}>
+              <option value="">-- Select Category --</option>
+              {CATEGORIES.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className={styles.field}>
